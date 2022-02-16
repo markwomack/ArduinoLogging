@@ -1,2 +1,111 @@
 # ArduinoLogging
-This is a lightweight library for logging debug messages in your Arduino code and then controlling where the messages go.
+This is a lightweight library for logging debug messages in your Arduino code
+and then controlling where the messages go.
+
+## Acknowledgements
+This library is a combination of separate code cobbled together that originally
+came from Alexander Brevig (CascadeDebugger) and David A. Mellis
+(CascadePrinter). But I have heavily modified and extended the code over time,
+and I am releasing it as a separate, new library. But credit goes to them for
+the original work.
+
+## Contact
+If you have any questions or bugs, please 
+[open a new issue on github](https://github.com/markwomack/ArduinoLogging/issues).
+
+## Overview
+Like almost all developers, there comes a time where you just need to insert
+debug messages that get printed out during the execution of the code. This is
+especially true with Arduino code. Most of the time Serial is used directly to
+print. But it's no surprise that there are many libraries out there that extend
+from Serial and add a little more power. ArduinoLogging is no exception.
+
+ArduinoLogging provides the following features:
+- Defaults to printing messages to the Serial port at program start. But this
+can be easily changed to print messages to other destinations.
+- Allows for "cascading" print calls to make print calls more compact.
+- Supports "message levels" to be associated with print calls, and messages
+will only be printed if the associated level is enabled.
+- Any object that supports the `Print` interface, which includes all
+`Streams`, can be used to print the debug messages. Simply reference it in a
+`PrintWrapper` instance and set it for use. This works for simple destinations
+like auxilary serial ports whether hardware or software based.
+- While any object supporting `Print` can be used, some object types also
+require some sort of open and close mechanism before and after printing to
+them. This is also supported in `PrintWrapper`, allowing subclasses to
+implement open and close methods that are called at the correct time when
+printing debug messages. This works for more complex destinations like
+a remote UDP port.
+- Once a new `PrintWrapper` is applied, all subsequent messages will be
+printed using it.
+- Though these classes have been written to support debugging, the base
+class, `CascadePrinter`, can be used separatly to implement other
+situations where one needs to print to different destinations.
+- All debug messages can be disabled and not printed by simply disabling
+the `DebugMsgs` object (which is its default state).
+
+To use Arduino Logging, simply include the file `DebugMsgs.h`, and then use
+the `DebugMsgs` global object to print messages.
+
+    #include <DebugMsgs.h>
+    
+    void setup() {
+      Serial.begin(9600);
+      DebugMsgs.enableLevel(DEBUG);
+      DebugMsgs.debug().("Some ").print("message ").print(" to be").println("printed!");
+    }
+    
+    void loop() {
+      DebugMsgs.debug().print("The current millis is ").println(millis());
+      delay(1000);
+    }
+
+## Classes and relationships
+
+### PrintWrapper
+`PrinterWrapper` is the primary class that performs the printing to the
+`Print` reference that it wraps.
+- In addition to the print related methods, three other methods are
+`open()`, `close()`, and `requiresOpenClose()`. The default
+implementations effectively do nothing and only need to be overridden
+by subclasses if the `Print` type requires some kind of open and close
+when printing to it.
+- If a subclass returns true for `requiresOpenClose()` then the `open()`
+method will be called with the first of any `print` or `println`
+method called. The `close()` method will be called at the end of the
+first `println` method called. In this way the messages will be sent to
+the destination in chunks decided by the `print` and `println` calls,
+typically line by line.
+- All initialization of the `Print` reference wrapped by
+`PrintWrapper` is expected to be done outside of the class. No
+initialization is performed by `PrintWrapper`. For example, the
+`SerialPrintWrapper` expects the `Serial` port to be initialized with
+a call to the `begin(int baud)` method before messages are printed.
+The `UDPPrintWrapper` expects the `UDP` instance to have been
+initialized before any messages are printed.
+- Examples of `PrintWrapper` subclasses are `SerialPrintWrapper`,
+`NullPrintWrapper`, and `UDPPrintWrapper`.
+
+### CascadeDebugger
+`CascadeDebugger` is the class used for the `DebugMsgs` global.
+- It has all the methods related to enabling and disabling the message
+levels as well as the message methods, like `debug()`. The message
+methods control whether the following `print` and `println` methods will
+print their contents. If the associated message level is not enabled,
+then nothing will be printed.
+- All message printing can be disabled by calling the `disable()` method
+(which is the default at program start).
+- `SerialPrintWrapper` is the default at program start, and will print
+messages to the Serial port. A different `PrintWrapper` subclass can
+be set at any point during the program execution. All subsequent
+messages will be printed by the new `PrintWrapper` instance.
+
+### CascadePrinter
+`CascadePrinter` is the base class for `CascadeDebugger`.
+- It has all of the `print` and `println` methods used for printing
+the message contents. This set of methods exacly matches the methods
+provided by the `Print` interface. These versions return a reference
+to the current `CascadePrinter` so that methods can be appended
+for cascaded printing.
+- It has all of the methods for handling the open and close calls
+of the `PrintWrapper` class.
