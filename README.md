@@ -50,7 +50,7 @@ the `DebugMsgs` global object to print messages.
     #include <DebugMsgs.h>
     
     void setup() {
-      Serial.begin(9600);
+      Serial.begin(9600); // Initialization of the Serial port must be performed before usage.
       DebugMsgs.enableLevel(DEBUG);
       DebugMsgs.debug().("Some ").print("message ").print(" to be").println("printed!");
     }
@@ -63,7 +63,8 @@ the `DebugMsgs` global object to print messages.
 ## Classes and relationships
 
 ### PrintWrapper
-`PrinterWrapper` is the primary class that performs the printing to the
+[PrinterWrapper](https://github.com/markwomack/ArduinoLogging/blob/main/src/PrintWrapper.h#L29)
+is the primary class that performs the printing to the
 `Print` reference that it wraps.
 - In addition to the print related methods, three other methods are
 `open()`, `close()`, and `requiresOpenClose()`. The default
@@ -83,11 +84,15 @@ initialization is performed by `PrintWrapper`. For example, the
 a call to the `begin(int baud)` method before messages are printed.
 The `UDPPrintWrapper` expects the `UDP` instance to have been
 initialized before any messages are printed.
-- Examples of `PrintWrapper` subclasses are `SerialPrintWrapper`,
-`NullPrintWrapper`, and `UDPPrintWrapper`.
+- Examples of `PrintWrapper` subclasses are 
+[SerialPrintWrapper](https://github.com/markwomack/ArduinoLogging/blob/main/src/PrintWrapper.h#L94),
+[NullPrintWrapper](https://github.com/markwomack/ArduinoLogging/blob/main/src/PrintWrapper.h#L103), and 
+[UDPPrintWrapper](https://github.com/markwomack/ArduinoLogging/blob/main/src/UDPPrintWrapper.h#L48).
 
 ### CascadeDebugger
-`CascadeDebugger` is the class used for the `DebugMsgs` global.
+[CascadeDebugger](https://github.com/markwomack/ArduinoLogging/blob/main/src/CascadeDebugger.h#L31) 
+is the class used for the 
+[DebugMsgs](https://github.com/markwomack/ArduinoLogging/blob/main/src/DebugMsgs.h#L9) global.
 - It has all the methods related to enabling and disabling the message
 levels as well as the message methods, like `debug()`. The message
 methods control whether the following `print` and `println` methods will
@@ -101,9 +106,10 @@ be set at any point during the program execution. All subsequent
 messages will be printed by the new `PrintWrapper` instance.
 
 ### CascadePrinter
-`CascadePrinter` is the base class for `CascadeDebugger`.
+[CascadePrinter](https://github.com/markwomack/ArduinoLogging/blob/main/src/CascadePrinter.h#L21) 
+is the base class for `CascadeDebugger`.
 - It has all of the `print` and `println` methods used for printing
-the message contents. This set of methods exacly matches the methods
+the message contents. This set of methods exactly matches the methods
 provided by the `Print` interface. These versions return a reference
 to the current `CascadePrinter` so that methods can be appended
 for cascaded printing.
