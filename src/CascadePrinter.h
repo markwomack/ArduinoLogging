@@ -54,6 +54,7 @@ class CascadePrinter
     virtual CascadePrinter& println(double, int = 2);
     virtual CascadePrinter& println(const Printable&);
     virtual CascadePrinter& println(void);
+    virtual void flush();
 
   protected:
     PrintWrapper* _print;

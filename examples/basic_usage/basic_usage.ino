@@ -105,9 +105,14 @@ void setup() {
   DebugMsgs.debug().print("This is another compound message line made up of numbers (")
     .print(1).print(", ").print(3.0).print(", ").print(-5).println(')');
   Serial.println();
+
+  Serial.println("Round 11");
+  DebugMsgs.debug().print("This is ").print("a compound ").print("message line").println(" with flush call!").flush();
+  DebugMsgs.debug().println("Single line, then flush");
+  DebugMsgs.flush();
+  Serial.println();
 }
 
 void loop() {
   // nothing to see here, move along.
 }
-

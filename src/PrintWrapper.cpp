@@ -119,6 +119,10 @@ size_t PrintWrapper::println(void) {
   return _print->println();
 }
 
+void PrintWrapper::flush() {
+  _print->flush();
+}
+
 size_t NullPrintWrapper::print(const __FlashStringHelper *h) {
   // does nothing
   return 0;
@@ -232,4 +236,8 @@ size_t NullPrintWrapper::println(const Printable& p) {
 size_t NullPrintWrapper::println(void) {
   // does nothing
   return 0;
+}
+
+void NullPrintWrapper::flush() {
+  // does nothing
 }
