@@ -111,6 +111,20 @@ void setup() {
   DebugMsgs.debug().println("Single line, then flush");
   DebugMsgs.flush();
   Serial.println();
+
+  Serial.println("Round 12");
+  DebugMsgs.enableAll();
+  DebugMsgs.debug(1 == 1).println("this should print");
+  DebugMsgs.debug(1 == 0).println("this should not print");
+  DebugMsgs.warning(1 == 1).println("this should print");
+  DebugMsgs.warning(1 == 0).println("this should not print");
+  DebugMsgs.error(1 == 1).println("this should print");
+  DebugMsgs.error(1 == 0).println("this should not print");
+  DebugMsgs.notification(1 == 1).println("this should print");
+  DebugMsgs.notification(1 == 0).println("this should not print");
+  DebugMsgs.status(1 == 1).println("this should print");
+  DebugMsgs.status(1 == 0).println("this should not print");
+  Serial.println();
 }
 
 void loop() {
