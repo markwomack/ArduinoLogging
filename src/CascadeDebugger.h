@@ -42,10 +42,15 @@ class CascadeDebugger : public CascadePrinter {
     bool isLevelEnabled(MsgLevel level);
     
     CascadePrinter& debug(void);
+    CascadePrinter& debug(bool test);
     CascadePrinter& warning(void);
+    CascadePrinter& warning(bool test);
     CascadePrinter& error(void);
+    CascadePrinter& error(bool test);
     CascadePrinter& notification(void);
+    CascadePrinter& notification(bool test);
     CascadePrinter& status(void);
+    CascadePrinter& status(bool test);
     
     // Override of CascadePrinter methods
     virtual CascadePrinter& print(const __FlashStringHelper *);

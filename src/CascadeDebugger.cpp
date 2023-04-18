@@ -55,9 +55,25 @@ CascadePrinter& CascadeDebugger::debug(void) {
   print(millis()).print(" - ").print("DEBUG - ");
   return *this;
 }
+    
+CascadePrinter& CascadeDebugger::debug(boolean test) {
+  if (!test || !isLevelEnabled(DEBUG)) {
+    return *_nullPrinter;
+  }
+  print(millis()).print(" - ").print("DEBUG - ");
+  return *this;
+}
 
 CascadePrinter& CascadeDebugger::warning(void) {
   if (!isLevelEnabled(WARNING)) {
+    return *_nullPrinter;
+  }
+  print(millis()).print(" - ").print("WARNING - ");
+  return *this;
+}
+
+CascadePrinter& CascadeDebugger::warning(boolean test) {
+  if (!test || !isLevelEnabled(WARNING)) {
     return *_nullPrinter;
   }
   print(millis()).print(" - ").print("WARNING - ");
@@ -72,6 +88,14 @@ CascadePrinter& CascadeDebugger::error(void) {
   return *this;
 }
 
+CascadePrinter& CascadeDebugger::error(boolean test) {
+  if (!test || !isLevelEnabled(ERROR)) {
+    return *_nullPrinter;
+  }
+  print(millis()).print(" - ").print("ERROR - ");
+  return *this;
+}
+
 CascadePrinter& CascadeDebugger::notification(void) {
   if (!isLevelEnabled(NOTIFICATION)) {
     return *_nullPrinter;
@@ -80,8 +104,24 @@ CascadePrinter& CascadeDebugger::notification(void) {
   return *this;
 }
 
+CascadePrinter& CascadeDebugger::notification(boolean test) {
+  if (!test || !isLevelEnabled(NOTIFICATION)) {
+    return *_nullPrinter;
+  }
+  print(millis()).print(" - ").print("NOTIFICATION - ");
+  return *this;
+}
+
 CascadePrinter& CascadeDebugger::status(void) {
   if (!isLevelEnabled(STATUS)) {
+    return *_nullPrinter;
+  }
+  print(millis()).print(" - ").print("STATUS - ");
+  return *this;
+}
+
+CascadePrinter& CascadeDebugger::status(boolean test) {
+  if (!test || !isLevelEnabled(STATUS)) {
     return *_nullPrinter;
   }
   print(millis()).print(" - ").print("STATUS - ");
