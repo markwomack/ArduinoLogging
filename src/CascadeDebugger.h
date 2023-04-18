@@ -71,6 +71,7 @@ class CascadeDebugger : public CascadePrinter {
     virtual CascadePrinter& println(double, int = 2);
     virtual CascadePrinter& println(const Printable&);
     virtual CascadePrinter& println(void);
+    virtual void flush();
     
   private:
     int _msgLevel;

@@ -272,5 +272,13 @@ CascadePrinter& CascadeDebugger::println(void) {
   return CascadePrinter::println();
 }
 
+void CascadeDebugger::flush() {
+  if (!isAnyLevelEnabled()) {
+    return;
+  }
+  
+  CascadePrinter::flush();
+}
+
 CascadeDebugger DebugMsgs;
 

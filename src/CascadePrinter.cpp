@@ -272,3 +272,10 @@ CascadePrinter& CascadePrinter::println(void) {
   autoClose();
   return *this;
 }
+
+void CascadePrinter::flush() {
+  autoOpen();
+  checkIfOpen();
+  _print->flush();
+  autoClose();
+}
