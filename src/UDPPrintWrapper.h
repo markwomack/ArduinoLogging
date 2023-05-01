@@ -19,30 +19,10 @@
  * -----------------------------
  *
  * If you don't already have something on the receiving end of the UDP packets
- * being sent by the UDPPrintWrapper, here are some commands you can use on
- * linux.
+ * being sent by the UDPPrintWrapper, and you are using linux, then you can
+ * use netcat from the command line to print the UDP messages:
  *
- * 1) Use this command to create a virtual serial port
- *
- *      socat -d -d PTY,raw,echo=0,link=/tmp/ttyVSerial0 \
- *      PTY,raw,echo=0,link=/tmp/ttyVSerial1
- *
- * 2) Use this command to listen to a port for UDP data and then forward the
- *    data to the virtual serial port. Make sure this is the UDP port you are
- *    sending the data to from the Arduino.
- *
- *      socat -v udp4-listen:<THE PORT #> pty,link=/tmp/ttyVSerial0,raw,\
- *      nonblock,waitlock=/tmp/s0.locak,echo=0,b115200,crnl
- *
- * 3) Wait for the first UDP message to be sent. If you try the next step
- *    before the first message is sent, then nothing will be displayed. I
- *    think that this is because the connection defined in step 2 is not
- *    actually created until data is received.
- *
- * 4) Once the first message has been sent, then you can run the following
- *    command to see the messages in realtime.
- 
- *      cat < /tmp/ttyVSerial0
+ *     nc -ulp <PORT# TO LISTEN TO>
  *
  **/
 class UDPPrintWrapper : public PrintWrapper {
