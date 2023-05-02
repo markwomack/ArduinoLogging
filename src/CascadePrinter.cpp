@@ -11,17 +11,20 @@
 
 #include "CascadePrinter.h"
 
-CascadePrinter::CascadePrinter(PrintWrapper* print)
-{
-  _isOpen = false;
+CascadePrinter::CascadePrinter() {
+  setPrint(new NullPrintWrapper());
+}
+
+CascadePrinter::CascadePrinter(PrintWrapper* print) {
   setPrint(print);
 }
 
-void CascadePrinter::setPrint(PrintWrapper* print)
-{
+PrintWrapper* CascadePrinter::setPrint(PrintWrapper* print) {
+  PrintWrapper* oldPrint = _print;
   _print = print;
   _isOpen = false;
   _requiresOpenAndClose = _print->requiresOpenAndClose();
+  return oldPrint;
 }
     
 void CascadePrinter::open(void) {
