@@ -21,12 +21,14 @@
 class CascadePrinter
 {
   public:
+    CascadePrinter();
     CascadePrinter(PrintWrapper* print);
     
     /**
      * Sets the PrintWrapper to use when printing messages.
+     * Returns the PrintWrapper the new one replaced.
      **/
-    void setPrint(PrintWrapper* print);
+    PrintWrapper* setPrint(PrintWrapper* print);
     
     // These methods exactly mirror the methods provided by the PrintWrapper
     // class, which in turn mirrors the methods provided by the Print
