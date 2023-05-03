@@ -19,10 +19,18 @@ void setup() {
 
   DebugMsgs.debug().println("This line will not print");
 
+  SerialPrintWrapper serialPrintWrapper;
+  
   // Set a serial print wrapper that will print
-  DebugMsgs.setPrint(new SerialPrintWrapper());
+  DebugMsgs.setPrint(&serialPrintWrapper);
 
   DebugMsgs.debug().println("...and now we are back!");
+
+  FlushingPrintWrapper flushingPrintWrapper(&serialPrintWrapper);
+
+  DebugMsgs.setPrint(&flushingPrintWrapper);
+
+  DebugMsgs.debug().print("print, ").print("print, ").println(" flush!");
 
   CascadePrinter cascadePrinter;
 

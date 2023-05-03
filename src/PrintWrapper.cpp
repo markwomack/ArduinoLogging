@@ -241,3 +241,141 @@ size_t NullPrintWrapper::println(void) {
 void NullPrintWrapper::flush() {
   // does nothing
 }
+
+FlushingPrintWrapper::FlushingPrintWrapper(PrintWrapper* printWrapper) : PrintWrapper(0) {
+  _printWrapper = printWrapper;
+}
+    
+int FlushingPrintWrapper::open(void) {
+  return _printWrapper->open();
+}
+
+int FlushingPrintWrapper::close(void) {
+  return _printWrapper->close();
+}
+
+bool FlushingPrintWrapper::requiresOpenAndClose() {
+  return _printWrapper->requiresOpenAndClose();
+}
+
+size_t FlushingPrintWrapper::print(const __FlashStringHelper* h) {
+  return _printWrapper->print(h);
+}
+
+size_t FlushingPrintWrapper::print(const String& s) {
+  return _printWrapper->print(s);
+}
+
+size_t FlushingPrintWrapper::print(const char c[]) {
+  return _printWrapper->print(c);
+
+}
+
+size_t FlushingPrintWrapper::print(char c) {
+  return _printWrapper->print(c);
+}
+
+size_t FlushingPrintWrapper::print(unsigned char c, int  i) {
+  return _printWrapper->print(c, i);
+}
+
+size_t FlushingPrintWrapper::print(int x, int i) {
+  return _printWrapper->print(x, i);
+}
+
+size_t FlushingPrintWrapper::print(unsigned int x, int i) {
+  return _printWrapper->print(x, i);
+}
+
+size_t FlushingPrintWrapper::print(long x, int i) {
+  return _printWrapper->print(x, i);
+}
+
+size_t FlushingPrintWrapper::print(unsigned long x, int i) {
+  return _printWrapper->print(x, i);
+}
+
+size_t FlushingPrintWrapper::print(double x, int i) {
+  return _printWrapper->print(x, i);
+}
+
+size_t FlushingPrintWrapper::print(const Printable& p) {
+  return _printWrapper->print(p);
+}
+
+size_t FlushingPrintWrapper::println(const __FlashStringHelper * h) {
+  size_t size = _printWrapper->println(h);
+  flush();
+  return size;
+}
+
+size_t FlushingPrintWrapper::println(const String &s) {
+  size_t size = _printWrapper->println(s);
+  flush();
+  return size;
+}
+
+size_t FlushingPrintWrapper::println(const char c[] ) {
+  size_t size = _printWrapper->println(c);
+  flush();
+  return size;
+}
+
+size_t FlushingPrintWrapper::println(char c) {
+  size_t size = _printWrapper->println(c);
+  flush();
+  return size;
+}
+
+size_t FlushingPrintWrapper::println(unsigned char c, int i) {
+  size_t size = _printWrapper->println(c, i);
+  flush();
+  return size;
+}
+
+size_t FlushingPrintWrapper::println(int x, int i) {
+  size_t size = _printWrapper->println(x, i);
+  flush();
+  return size;
+}
+
+size_t FlushingPrintWrapper::println(unsigned int x, int i) {
+  size_t size = _printWrapper->println(x, i);
+  flush();
+  return size;
+}
+
+size_t FlushingPrintWrapper::println(long x, int i) {
+  size_t size = _printWrapper->println(x, i);
+  flush();
+  return size;
+}
+
+size_t FlushingPrintWrapper::println(unsigned long x, int i) {
+  size_t size = _printWrapper->println(x, i);
+  flush();
+  return size;
+}
+
+size_t FlushingPrintWrapper::println(double x, int i) {
+  size_t size = _printWrapper->println(x, i);
+  flush();
+  return size;
+}
+
+size_t FlushingPrintWrapper::println(const Printable& p) {
+  size_t size = _printWrapper->println(p);
+  flush();
+  return size;
+}
+
+size_t FlushingPrintWrapper::println(void) {
+  size_t size = _printWrapper->println();
+  flush();
+  return size;
+}
+
+void FlushingPrintWrapper::flush() {
+  _printWrapper->flush();
+}
+
