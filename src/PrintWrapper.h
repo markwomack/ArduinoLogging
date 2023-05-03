@@ -103,33 +103,70 @@ class SerialPrintWrapper : public PrintWrapper {
  *
  **/
 class NullPrintWrapper : public PrintWrapper {
-    public:
-      NullPrintWrapper() : PrintWrapper(0) { }
+  public:
+    NullPrintWrapper() : PrintWrapper(0) { }
+    size_t print(const __FlashStringHelper *);
+    size_t print(const String &);
+    size_t print(const char[]);
+    size_t print(char);
+    size_t print(unsigned char, int = DEC);
+    size_t print(int, int = DEC);
+    size_t print(unsigned int, int = DEC);
+    size_t print(long, int = DEC);
+    size_t print(unsigned long, int = DEC);
+    size_t print(double, int = 2);
+    size_t print(const Printable&);
+    size_t println(const __FlashStringHelper *);
+    size_t println(const String &s);
+    size_t println(const char[]);
+    size_t println(char);
+    size_t println(unsigned char, int = DEC);
+    size_t println(int, int = DEC);
+    size_t println(unsigned int, int = DEC);
+    size_t println(long, int = DEC);
+    size_t println(unsigned long, int = DEC);
+    size_t println(double, int = 2);
+    size_t println(const Printable&);
+    size_t println(void);
+    void flush();
+};
+
+class FlushingPrintWrapper : public PrintWrapper {
+  public:
+    FlushingPrintWrapper(PrintWrapper* printWrapper);
     
-      size_t print(const __FlashStringHelper *);
-      size_t print(const String &);
-      size_t print(const char[]);
-      size_t print(char);
-      size_t print(unsigned char, int = DEC);
-      size_t print(int, int = DEC);
-      size_t print(unsigned int, int = DEC);
-      size_t print(long, int = DEC);
-      size_t print(unsigned long, int = DEC);
-      size_t print(double, int = 2);
-      size_t print(const Printable&);
-      size_t println(const __FlashStringHelper *);
-      size_t println(const String &s);
-      size_t println(const char[]);
-      size_t println(char);
-      size_t println(unsigned char, int = DEC);
-      size_t println(int, int = DEC);
-      size_t println(unsigned int, int = DEC);
-      size_t println(long, int = DEC);
-      size_t println(unsigned long, int = DEC);
-      size_t println(double, int = 2);
-      size_t println(const Printable&);
-      size_t println(void);
-      void flush();
+    int open(void);
+    int close(void);
+    bool requiresOpenAndClose();
+    size_t print(const __FlashStringHelper *);
+    size_t print(const String &);
+    size_t print(const char[]);
+    size_t print(char);
+    size_t print(unsigned char, int = DEC);
+    size_t print(int, int = DEC);
+    size_t print(unsigned int, int = DEC);
+    size_t print(long, int = DEC);
+    size_t print(unsigned long, int = DEC);
+    size_t print(double, int = 2);
+    size_t print(const Printable&);
+    size_t println(const __FlashStringHelper *);
+    size_t println(const String &s);
+    size_t println(const char[]);
+    size_t println(char);
+    size_t println(unsigned char, int = DEC);
+    size_t println(int, int = DEC);
+    size_t println(unsigned int, int = DEC);
+    size_t println(long, int = DEC);
+    size_t println(unsigned long, int = DEC);
+    size_t println(double, int = 2);
+    size_t println(const Printable&);
+    size_t println(void);
+    void flush();
+    
+  protected:
+    // This print wrapper is wrapped by the FlushingPrintWrapper,
+    // and will be called for actual functionality.
+    PrintWrapper* _printWrapper;
 };
 
 #endif
