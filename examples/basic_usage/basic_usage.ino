@@ -100,19 +100,19 @@ void setup() {
   DebugMsgs.println("this should print, but without the pre header");
   Serial.println();
 
-  Serial.println("Round 10");
+  Serial.println("Round 10 - compound messages");
   DebugMsgs.debug().print("This is ").print("a compound ").println("message line!");
   DebugMsgs.debug().print("This is another compound message line made up of numbers (")
     .print(1).print(", ").print(3.0).print(", ").print(-5).println(')');
   Serial.println();
 
-  Serial.println("Round 11");
+  Serial.println("Round 11 - using flush()");
   DebugMsgs.debug().print("This is ").print("a compound ").print("message line").println(" with flush call!").flush();
   DebugMsgs.debug().println("Single line, then flush");
   DebugMsgs.flush();
   Serial.println();
 
-  Serial.println("Round 12");
+  Serial.println("Round 12 - using boolean check with level");
   DebugMsgs.enableAll();
   DebugMsgs.debug(1 == 1).println("this should print");
   DebugMsgs.debug(1 == 0).println("this should not print");
@@ -126,8 +126,8 @@ void setup() {
   DebugMsgs.status(1 == 0).println("this should not print");
   Serial.println();
 
-  Serial.println("Round 13 - Using printf and printfln");
-  DebugMsgs.debug().printfln("A message with some value: %s, %d, %08X, %lf", "A string", 1234, 56783126, 1.23);
+  Serial.println("Round 13 - using printf and printfln");
+  DebugMsgs.debug().printfln("A message with some value: %s, %d, %08X, %.2lf", "A string", 1234, 56999999, 1.23567);
   DebugMsgs.debug().printf("A variable %d; ", 1234).printf("Another variable %s; ", "StRiNg").printfln("And another variable %02d;", 5);
   Serial.println();
 }

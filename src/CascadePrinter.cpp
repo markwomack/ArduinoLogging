@@ -285,31 +285,21 @@ void CascadePrinter::flush() {
 }
 
 CascadePrinter& CascadePrinter::printf(const char* format, ...) {
-  autoOpen();
-  checkIfOpen();
-  
   char buffer[256];
   va_list args;
   va_start (args, format);
   vsnprintf (buffer, 255, format, args);
-  _print->print(buffer);
+  this->print(buffer);
   va_end (args);
-  
-  autoClose();
   return *this;
 }
 
 CascadePrinter& CascadePrinter::printfln(const char* format, ...) {
-  autoOpen();
-  checkIfOpen();
-  
   char buffer[256];
   va_list args;
   va_start (args, format);
   vsnprintf (buffer, 255, format, args);
-  _print->println(buffer);
+  this->println(buffer);
   va_end (args);
-  
-  autoClose();
   return *this;
 }
