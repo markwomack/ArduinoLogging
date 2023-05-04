@@ -5,6 +5,7 @@
 
 #include <Arduino.h>
 #include <stdio.h>
+#include <stdarg.h>
 #include <string.h>
 #include <inttypes.h>
 #include <math.h>
@@ -281,4 +282,34 @@ void CascadePrinter::flush() {
   checkIfOpen();
   _print->flush();
   autoClose();
+}
+
+CascadePrinter& CascadePrinter::printf(const char* format, ...) {
+  autoOpen();
+  checkIfOpen();
+  
+  char buffer[256];
+  va_list args;
+  va_start (args, format);
+  vsnprintf (buffer, 255, format, args);
+  _print->print(buffer);
+  va_end (args);
+  
+  autoClose();
+  return *this;
+}
+
+CascadePrinter& CascadePrinter::printfln(const char* format, ...) {
+  autoOpen();
+  checkIfOpen();
+  
+  char buffer[256];
+  va_list args;
+  va_start (args, format);
+  vsnprintf (buffer, 255, format, args);
+  _print->println(buffer);
+  va_end (args);
+  
+  autoClose();
+  return *this;
 }
