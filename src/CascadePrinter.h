@@ -57,6 +57,11 @@ class CascadePrinter
     virtual CascadePrinter& println(const Printable&);
     virtual CascadePrinter& println(void);
     virtual void flush();
+    
+    // These methods are in addition to the Print
+    // interface methods.
+    virtual CascadePrinter& printf(const char* format, ...);
+    virtual CascadePrinter& printfln(const char* format, ...);
 
   protected:
     PrintWrapper* _print;

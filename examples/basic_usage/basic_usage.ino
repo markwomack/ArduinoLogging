@@ -125,6 +125,11 @@ void setup() {
   DebugMsgs.status(1 == 1).println("this should print");
   DebugMsgs.status(1 == 0).println("this should not print");
   Serial.println();
+
+  Serial.println("Round 13 - Using printf and printfln");
+  DebugMsgs.debug().printfln("A message with some value: %s, %d, %08X, %lf", "A string", 1234, 56783126, 1.23);
+  DebugMsgs.debug().printf("A variable %d; ", 1234).printf("Another variable %s; ", "StRiNg").printfln("And another variable %02d;", 5);
+  Serial.println();
 }
 
 void loop() {

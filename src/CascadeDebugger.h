@@ -81,6 +81,8 @@ class CascadeDebugger : public CascadePrinter {
   private:
     int _msgLevel;
     CascadePrinter* _nullPrinter;
+    
+    void printLevelStart(const char levelStr[]);
 };
 
 #endif
