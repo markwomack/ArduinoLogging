@@ -26,7 +26,7 @@
  * the methods can be overridden by a subclass to provide for that case.
  *
  **/
-class PrintWrapper
+class PrintWrapper : public Print
 {
   public:
     PrintWrapper(Print* print);
@@ -81,6 +81,7 @@ class PrintWrapper
     virtual size_t println(const Printable&);
     virtual size_t println(void);
     
+    virtual size_t write(uint8_t);
     virtual void flush(); 
   
   protected:
@@ -128,6 +129,8 @@ class NullPrintWrapper : public PrintWrapper {
     size_t println(double, int = 2);
     size_t println(const Printable&);
     size_t println(void);
+    
+    size_t write(uint8_t);
     void flush();
 };
 
@@ -161,6 +164,8 @@ class FlushingPrintWrapper : public PrintWrapper {
     size_t println(double, int = 2);
     size_t println(const Printable&);
     size_t println(void);
+    
+    size_t write(uint8_t);
     void flush();
     
   protected:

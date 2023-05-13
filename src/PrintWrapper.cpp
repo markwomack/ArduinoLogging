@@ -118,6 +118,10 @@ size_t PrintWrapper::println(const Printable& p) {
 size_t PrintWrapper::println(void) {
   return _print->println();
 }
+    
+size_t PrintWrapper::write(uint8_t b) {
+  return _print->write(b);
+}
 
 void PrintWrapper::flush() {
   _print->flush();
@@ -234,6 +238,11 @@ size_t NullPrintWrapper::println(const Printable& p) {
 }
 
 size_t NullPrintWrapper::println(void) {
+  // does nothing
+  return 0;
+}
+    
+size_t NullPrintWrapper::write(uint8_t b) {
   // does nothing
   return 0;
 }
@@ -373,6 +382,10 @@ size_t FlushingPrintWrapper::println(void) {
   size_t size = _printWrapper->println();
   flush();
   return size;
+}
+    
+size_t FlushingPrintWrapper::write(uint8_t b) {
+  return _printWrapper->write(b);
 }
 
 void FlushingPrintWrapper::flush() {

@@ -43,7 +43,7 @@ void setup() {
   Serial.begin(9600);
 
   // Set in a different print wrapper.
-  DebugMsgs.setPrint(new PrintWrapperWithOpenClose(&Serial));
+  DebugMsgs.setPrintWrapper(new PrintWrapperWithOpenClose(&Serial));
 
   // Enable debug level
   DebugMsgs.enableLevel(DEBUG);

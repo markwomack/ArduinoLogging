@@ -14,12 +14,12 @@ void setup() {
   DebugMsgs.debug().println("This line will print");
 
   // Set a null print wrapper that prints nothing
-  DebugMsgs.setPrint(new NullPrintWrapper());
+  DebugMsgs.setPrintWrapper(new NullPrintWrapper());
 
   DebugMsgs.debug().println("This line will not print");
 
   // Set a serial print wrapper that will print
-  DebugMsgs.setPrint(new SerialPrintWrapper());
+  DebugMsgs.setPrintWrapper(new SerialPrintWrapper());
 
   DebugMsgs.debug().println("...and now we are back!");
 

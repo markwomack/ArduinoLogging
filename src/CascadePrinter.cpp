@@ -12,79 +12,84 @@
 
 #include "CascadePrinter.h"
 
-CascadePrinter::CascadePrinter() {
-  setPrint(new NullPrintWrapper());
-}
 
-CascadePrinter::CascadePrinter(PrintWrapper* print) {
-  setPrint(print);
-}
-
-PrintWrapper* CascadePrinter::setPrint(PrintWrapper* print) {
-  PrintWrapper* oldPrint = _print;
-  _print = print;
+OpenClosePrintWrapper::OpenClosePrintWrapper(PrintWrapper* printWrapper) : PrintWrapper(0) {
+  _printWrapper = printWrapper;
   _isOpen = false;
-  _requiresOpenAndClose = _print->requiresOpenAndClose();
-  return oldPrint;
+  _requiresOpenAndClose = _printWrapper->requiresOpenAndClose();
 }
     
-void CascadePrinter::open(void) {
+PrintWrapper* OpenClosePrintWrapper::getPrintWrapper() {
+  return _printWrapper;
+}
+
+bool OpenClosePrintWrapper::requiresOpenAndClose(void) {
+  return _printWrapper->requiresOpenAndClose();
+}
+
+int OpenClosePrintWrapper::open(void) {
   if (!_requiresOpenAndClose) {
-    return;
+    return 0;
   }
   
   if (isOpen()) {
-    _print->println();
-    _print->println();
-    _print->println("*****CascadePrinter: open called twice with no close*****");
-    _print->println();
-    _print->println();
+    _printWrapper->println();
+    _printWrapper->println();
+    _printWrapper->println("*****CascadePrinter: open called twice with no close*****");
+    _printWrapper->println();
+    _printWrapper->println();
   } else {
-    _print->open();
+    _printWrapper->open();
   }
   _isOpen = true;
+  
+  return 0;
 }
 
-bool CascadePrinter::isOpen(void) {
+bool OpenClosePrintWrapper::isOpen(void) {
   return _isOpen;
 }
 
-void CascadePrinter::checkIfOpen() {
+void OpenClosePrintWrapper::checkIfOpen() {
   if (!_requiresOpenAndClose) {
     return;
   }
 
   if (!isOpen()) {
-    _print->open();
-    _print->println();
-    _print->println();
-    _print->println("*****CascadePrinter: open not called before printing*****");
-    _print->println();
-    _print->println();
-    _print->close();
+    _printWrapper->open();
+    _printWrapper->println();
+    _printWrapper->println();
+    _printWrapper->println("*****CascadePrinter: open not called before printing*****");
+    _printWrapper->println();
+    _printWrapper->println();
+    _printWrapper->close();
   }
+  
+  return;
 }
 
-void CascadePrinter::close(void) {
+int OpenClosePrintWrapper::close(void) {
   if (!_requiresOpenAndClose) {
-    return;
+    return 0;
   }
 
   if (!isOpen()) {
-    _print->open();
-    _print->println();
-    _print->println();
-    _print->println("*****CascadePrinter: close called with no open*****");
-    _print->println();
-    _print->println();
-    _print->close();
+    _printWrapper->open();
+    _printWrapper->println();
+    _printWrapper->println();
+    _printWrapper->println("*****CascadePrinter: close called with no open*****");
+    _printWrapper->println();
+    _printWrapper->println();
+    _printWrapper->close();
   } else {
-    _print->close();
+    _printWrapper->close();
   }
   _isOpen = false;
+  
+  return 0;
 }
 
-void CascadePrinter::autoOpen(void) {
+void OpenClosePrintWrapper::autoOpen(void) {
   if (!_requiresOpenAndClose) {
     return;
   }
@@ -94,7 +99,7 @@ void CascadePrinter::autoOpen(void) {
   }
 }
 
-void CascadePrinter::autoClose(void) {
+void OpenClosePrintWrapper::autoClose(void) {
   if (!_requiresOpenAndClose) {
     return;
   }
@@ -104,184 +109,327 @@ void CascadePrinter::autoClose(void) {
   }
 }
     
-CascadePrinter& CascadePrinter::print(const __FlashStringHelper *h) {
+size_t OpenClosePrintWrapper::print(const __FlashStringHelper *h) {
   autoOpen();
   checkIfOpen();
-  _print->print(h);
+  return _printWrapper->print(h);
+}
+
+size_t OpenClosePrintWrapper::print(const String &s) {
+  autoOpen();
+  checkIfOpen();
+  return _printWrapper->print(s);
+}
+
+size_t OpenClosePrintWrapper::print(const char c[]) {
+  autoOpen();
+  checkIfOpen();
+  return _printWrapper->print(c);
+}
+
+size_t OpenClosePrintWrapper::print(char c) {
+  autoOpen();
+  checkIfOpen();
+  return _printWrapper->print(c);
+}
+
+size_t OpenClosePrintWrapper::print(unsigned char n, int base) {
+  autoOpen();
+  checkIfOpen();
+  return _printWrapper->print(n, base);
+}
+
+size_t OpenClosePrintWrapper::print(int n, int base) {
+  autoOpen();
+  checkIfOpen();
+  return _printWrapper->print(n, base);
+}
+
+size_t OpenClosePrintWrapper::print(unsigned int n, int base) {
+  autoOpen();
+  checkIfOpen();
+  return _printWrapper->print(n, base);
+}
+
+size_t OpenClosePrintWrapper::print(long n, int base) {
+  autoOpen();
+  checkIfOpen();
+  return _printWrapper->print(n, base);
+}
+
+size_t OpenClosePrintWrapper::print(unsigned long n, int base) {
+  autoOpen();
+  checkIfOpen();
+  return _printWrapper->print(n, base);
+}
+
+size_t OpenClosePrintWrapper::print(double d, int places) {
+  autoOpen();
+  checkIfOpen();
+  return _printWrapper->print(d, places);
+}
+
+size_t OpenClosePrintWrapper::print(const Printable& p) {
+  autoOpen();
+  checkIfOpen();
+  return _printWrapper->print(p);
+}
+
+size_t OpenClosePrintWrapper::println(const __FlashStringHelper *h) {
+  autoOpen();
+  checkIfOpen();
+  size_t retVal = _printWrapper->println(h);
+  autoClose();
+  return retVal;
+}
+
+size_t OpenClosePrintWrapper::println(const String &s) {
+  autoOpen();
+  checkIfOpen();
+  size_t retVal = _printWrapper->println(s);
+  autoClose();
+  return retVal;
+}
+
+size_t OpenClosePrintWrapper::println(const char c[]) {
+  autoOpen();
+  checkIfOpen();
+  size_t retVal = _printWrapper->println(c);
+  autoClose();
+  return retVal;
+}
+
+size_t OpenClosePrintWrapper::println(char c) {
+  autoOpen();
+  checkIfOpen();
+  size_t retVal = _printWrapper->println(c);
+  autoClose();
+  return retVal;
+}
+    
+size_t OpenClosePrintWrapper::println(unsigned char n, int base) {
+  autoOpen();
+  checkIfOpen();
+  size_t retVal = _printWrapper->println(n, base);
+  autoClose();
+  return retVal;
+}
+
+size_t OpenClosePrintWrapper::println(int n, int base) {
+  autoOpen();
+  checkIfOpen();
+  size_t retVal = _printWrapper->println(n, base);
+  autoClose();
+  return retVal;
+}
+
+size_t OpenClosePrintWrapper::println(unsigned int n, int base) {
+  autoOpen();
+  checkIfOpen();
+  size_t retVal = _printWrapper->println(n, base);
+  autoClose();
+  return retVal;
+}
+
+size_t OpenClosePrintWrapper::println(long n, int base) {
+  autoOpen();
+  checkIfOpen();
+  size_t retVal = _printWrapper->println(n, base);
+  autoClose();
+  return retVal;
+}
+
+size_t OpenClosePrintWrapper::println(unsigned long n, int base) {
+  autoOpen();
+  checkIfOpen();
+  size_t retVal = _printWrapper->println(n, base);
+  autoClose();
+  return retVal;
+}
+
+size_t OpenClosePrintWrapper::println(double d, int places) {
+  autoOpen();
+  checkIfOpen();
+  size_t retVal = _printWrapper->println(d, places);
+  autoClose();
+  return retVal;
+}
+
+size_t OpenClosePrintWrapper::println(const Printable& p) {
+  autoOpen();
+  checkIfOpen();
+  size_t retVal = _printWrapper->println(p);
+  autoClose();
+  return retVal;
+}
+
+size_t OpenClosePrintWrapper::println(void) {
+  autoOpen();
+  checkIfOpen();
+  size_t retVal = _printWrapper->println();
+  autoClose();
+  return retVal;
+}
+    
+size_t OpenClosePrintWrapper::write(uint8_t b) {
+  autoOpen();
+  checkIfOpen();
+  return _printWrapper->write(b);
+}
+
+void OpenClosePrintWrapper::flush() {
+  autoOpen();
+  checkIfOpen();
+  _printWrapper->flush();
+  autoClose();
+}
+    
+CascadePrinter::CascadePrinter() {
+  _openClosePrintWrapper = 0;
+  setPrintWrapper(new NullPrintWrapper());
+}
+
+CascadePrinter::CascadePrinter(PrintWrapper* printWrapper) {
+  _openClosePrintWrapper = 0;
+  setPrintWrapper(printWrapper);
+}
+
+PrintWrapper* CascadePrinter::setPrintWrapper(PrintWrapper* printWrapper) {
+  PrintWrapper* oldPrintWrapper = 0;
+  if (_openClosePrintWrapper) {
+    oldPrintWrapper = _openClosePrintWrapper->getPrintWrapper();
+    free(_openClosePrintWrapper);
+  }
+  _openClosePrintWrapper = new OpenClosePrintWrapper(printWrapper);
+  return oldPrintWrapper;
+}
+
+Print* CascadePrinter::getPrint() {
+  return _openClosePrintWrapper;
+}
+    
+CascadePrinter& CascadePrinter::print(const __FlashStringHelper *h) {
+  _openClosePrintWrapper->print(h);
   return *this;
 }
 
 CascadePrinter& CascadePrinter::print(const String &s) {
-  autoOpen();
-  checkIfOpen();
-  _print->print(s);
+  _openClosePrintWrapper->print(s);
   return *this;
 }
 
 CascadePrinter& CascadePrinter::print(const char c[]) {
-  autoOpen();
-  checkIfOpen();
-  _print->print(c);
+  _openClosePrintWrapper->print(c);
   return *this;
 }
 
 CascadePrinter& CascadePrinter::print(char c) {
-  autoOpen();
-  checkIfOpen();
-  _print->print(c);
+  _openClosePrintWrapper->print(c);
   return *this;
 }
 
 CascadePrinter& CascadePrinter::print(unsigned char n, int base) {
-  autoOpen();
-  checkIfOpen();
-  _print->print(n, base);
+  _openClosePrintWrapper->print(n, base);
   return *this;
 }
 
 CascadePrinter& CascadePrinter::print(int n, int base) {
-  autoOpen();
-  checkIfOpen();
-  _print->print(n, base);
+  _openClosePrintWrapper->print(n, base);
   return *this;
 }
 
 CascadePrinter& CascadePrinter::print(unsigned int n, int base) {
-  autoOpen();
-  checkIfOpen();
-  _print->print(n, base);
+  _openClosePrintWrapper->print(n, base);
   return *this;
 }
 
 CascadePrinter& CascadePrinter::print(long n, int base) {
-  autoOpen();
-  checkIfOpen();
-  _print->print(n, base);
+  _openClosePrintWrapper->print(n, base);
   return *this;
 }
 
 CascadePrinter& CascadePrinter::print(unsigned long n, int base) {
-  autoOpen();
-  checkIfOpen();
-  _print->print(n, base);
+  _openClosePrintWrapper->print(n, base);
   return *this;
 }
 
 CascadePrinter& CascadePrinter::print(double d, int places) {
-  autoOpen();
-  checkIfOpen();
-  _print->print(d, places);
+  _openClosePrintWrapper->print(d, places);
   return *this;
 }
 
 CascadePrinter& CascadePrinter::print(const Printable& p) {
-  autoOpen();
-  checkIfOpen();
-  _print->print(p);
+  _openClosePrintWrapper->print(p);
   return *this;
 }
 
 CascadePrinter& CascadePrinter::println(const __FlashStringHelper *h) {
-  autoOpen();
-  checkIfOpen();
-  _print->println(h);
-  autoClose();
+  _openClosePrintWrapper->println(h);
   return *this;
 }
 
 CascadePrinter& CascadePrinter::println(const String &s) {
-  autoOpen();
-  checkIfOpen();
-  _print->println(s);
-  autoClose();
+  _openClosePrintWrapper->println(s);
   return *this;
 }
 
 CascadePrinter& CascadePrinter::println(const char c[]) {
-  autoOpen();
-  checkIfOpen();
-  _print->println(c);
-  autoClose();
+  _openClosePrintWrapper->println(c);
   return *this;
 }
 
 CascadePrinter& CascadePrinter::println(char c) {
-  autoOpen();
-  checkIfOpen();
-  _print->println(c);
-  autoClose();
+  _openClosePrintWrapper->println(c);
   return *this;
 }
     
 CascadePrinter& CascadePrinter::println(unsigned char n, int base) {
-  autoOpen();
-  checkIfOpen();
-  _print->println(n, base);
-  autoClose();
+  _openClosePrintWrapper->println(n, base);
   return *this;
 }
 
 CascadePrinter& CascadePrinter::println(int n, int base) {
-  autoOpen();
-  checkIfOpen();
-  _print->println(n, base);
-  autoClose();
+  _openClosePrintWrapper->println(n, base);
   return *this;
 }
 
 CascadePrinter& CascadePrinter::println(unsigned int n, int base) {
-  autoOpen();
-  checkIfOpen();
-  _print->println(n, base);
-  autoClose();
+  _openClosePrintWrapper->println(n, base);
   return *this;
 }
 
 CascadePrinter& CascadePrinter::println(long n, int base) {
-  autoOpen();
-  checkIfOpen();
-  _print->println(n, base);
-  autoClose();
+  _openClosePrintWrapper->println(n, base);
   return *this;
 }
 
 CascadePrinter& CascadePrinter::println(unsigned long n, int base) {
-  autoOpen();
-  checkIfOpen();
-  _print->println(n, base);
-  autoClose();
+  _openClosePrintWrapper->println(n, base);
   return *this;
 }
 
 CascadePrinter& CascadePrinter::println(double d, int places) {
-  autoOpen();
-  checkIfOpen();
-  _print->println(d, places);
-  autoClose();
+  _openClosePrintWrapper->println(d, places);
   return *this;
 }
 
 CascadePrinter& CascadePrinter::println(const Printable& p) {
-  autoOpen();
-  checkIfOpen();
-  _print->println(p);
-  autoClose();
+  _openClosePrintWrapper->println(p);
   return *this;
 }
 
 CascadePrinter& CascadePrinter::println(void) {
-  autoOpen();
-  checkIfOpen();
-  _print->println();
-  autoClose();
+  _openClosePrintWrapper->println();
+  return *this;
+}
+
+CascadePrinter& CascadePrinter::write(uint8_t b) {
+  _openClosePrintWrapper->write(b);
   return *this;
 }
 
 void CascadePrinter::flush() {
-  autoOpen();
-  checkIfOpen();
-  _print->flush();
-  autoClose();
+  _openClosePrintWrapper->flush();
 }
 
 CascadePrinter& CascadePrinter::printf(const char* format, ...) {
@@ -289,7 +437,7 @@ CascadePrinter& CascadePrinter::printf(const char* format, ...) {
   va_list args;
   va_start (args, format);
   vsnprintf (buffer, 255, format, args);
-  this->print(buffer);
+  _openClosePrintWrapper->print(buffer);
   va_end (args);
   return *this;
 }
@@ -299,7 +447,7 @@ CascadePrinter& CascadePrinter::printfln(const char* format, ...) {
   va_list args;
   va_start (args, format);
   vsnprintf (buffer, 255, format, args);
-  this->println(buffer);
+  _openClosePrintWrapper->println(buffer);
   va_end (args);
   return *this;
 }
