@@ -18,6 +18,7 @@
 extern CascadeDebugger DebugMsgs;
 
 #define LOG_ENABLE(...) DebugMsgs.enableLevel(__VA_ARGS__);
+#define LOG_DISABLE(...) DebugMsgs.disableLevel(__VA_ARGS__);
 #define LOG_DEBUG(...) DebugMsgs.debug().printfln(__VA_ARGS__);
 #define LOG_WARNING(...) DebugMsgs.warning().printfln(__VA_ARGS__);
 #define LOG_ERROR(...) DebugMsgs.error().printfln(__VA_ARGS__);
@@ -30,6 +31,7 @@ extern CascadeDebugger DebugMsgs;
 // If logging is not included, then these macros will evaluate to nothing,
 // thus removing all logging code from the executable.
 #define LOG_ENABLE(...) ;
+#define LOG_DISABLE(...) ;
 #define LOG_DEBUG(...) ;
 #define LOG_WARNING(...) ;
 #define LOG_ERROR(...) ;
