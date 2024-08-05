@@ -113,5 +113,86 @@ the message contents. This set of methods exactly matches the methods
 provided by the `Print` interface. These versions return a reference
 to the current `CascadePrinter` so that methods can be appended
 for cascaded printing.
+- In addition it also supports variable insertion and formatting
+methods, printf and printfln.
 - It has all of the methods for handling the open and close calls
 of the `PrintWrapper` class.
+
+## Print methods supported
+Four different print methods are supported for output on
+`CascadePrinter` and `CascadeDebugger`.
+
+- **print(value)** - This will print the given value to the output.
+It does not print a new line. Any subsequent printing will be
+started directly at the end of the value previouly printed.
+
+- **println(value)** - This is the same as the print() method,
+but it will also print a new line. Any subsequent printing will
+begin on the next line.
+
+- **printf(format string, values...)** -  This will print the
+given format string with the given values inserted into the
+format string. It supports all of the normal data types and data
+formatting supported by C/C++. It does not print a new line. Any
+subsequent printing will be started directly at the end of the
+value previouly printed.
+
+- **printfln(format string, values...)** -  This is the same as
+the printf() method, but it will also print a new line. Any
+subsequent printing will begin on the next line.
+
+## LOG Macros
+While all message output can be disabled by disabling all of the 
+message levels, the logging code calls still exist within the
+compiled code, and messages with inserted values are still being
+evaluated at runtime. All logging related code can be removed
+at compile time from any program by utilizing proveded LOG macros
+to output logging messages. The macros will expand to appropriate
+logging code in normal usage. But with the setting of a single
+flag the macros will expand to nothing, and not included in the
+compiled code.
+
+- **LOG_ENABLE(MsgLevel)/LOG_DISABLE(MsgLevel)** - Enables or
+disables a messages printed at a given message level. The
+values of ALL and NONE can be used to enable or disable all
+message levels.
+
+- **LOG_DEBUG(msg, values...)**</br>
+**LOG_WARNING(msg, values...)**</br>
+**LOG_ERROR(msg, values...)**</br>
+**LOG_NOTIFICATION(msg, values...)**</br>
+**LOG_STATUS(message, values...)** - These macros will print
+  the given message, with any given values inserted, at the
+  appropriate message level. It will print the message and then
+  a new line. A subsequent message will appear on the next line.
+
+- **LOG(msg, values...)** - This macro will print the given
+message, with any given values inserted, regardless of any
+enabled message levels. No timestamp or message level will be
+printed at the beginning of the line. It will print the message
+and then a new line. A subsequent message will appear on the
+next line.
+
+- **INCLUDE_LOGGING** - This is the flag that can be used to
+disable and remove all LOG macros. By default it will be set
+to "true" and all macros will function. But if it is set to
+"false" BEFORE the include for `DebugMsgs.h`, then all LOG macros
+will evaluate to nothing, and all logging code will be removed
+from the code.
+
+Below is a very simple example:
+
+    // uncomment to remove all logging code
+    //#define INCLUDE_LOGGING false
+    #include <DebugMsgs.h>
+    
+    void setup() {
+      Serial.begin(9600); // Initialization of the Serial port must be performed before usage.
+      LOG_ENABLE(DEBUG);
+      LOG_DEBUG("Some message to be logged");
+    }
+    
+    void loop() {
+      LOG_DEBUG("The current millis is %d", millis());
+      delay(1000);
+    }
