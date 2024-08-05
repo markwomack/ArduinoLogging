@@ -22,7 +22,8 @@ from Serial and add a little more power. ArduinoLogging is no exception.
 
 ArduinoLogging provides the following features:
 - Defaults to printing messages to the Serial port at program start. But this
-can be easily changed to print messages to other destinations.
+can be easily changed to print messages to other destinations, such as auxilary
+serial ports or even UDP.
 - Allows for "cascading" print calls to make print calls more compact.
 - Supports "message levels" to be associated with print calls, and messages
 will only be printed if the associated level is enabled.
@@ -42,7 +43,7 @@ printed using it.
 class, `CascadePrinter`, can be used separatly to implement other
 situations where one needs to print to different destinations.
 - All debug messages can be disabled and not printed by simply disabling
-the `DebugMsgs` object (which is its default state).
+all message level in the `DebugMsgs` object (which is its default state).
 
 To use Arduino Logging, simply include the file `DebugMsgs.h`, and then use
 the `DebugMsgs` global object to print messages.
@@ -153,8 +154,9 @@ flag the macros will expand to nothing, and not included in the
 compiled code.
 
 - **LOG_ENABLE(MsgLevel)/LOG_DISABLE(MsgLevel)** - Enables or
-disables a messages printed at a given message level. The
-values of ALL and NONE can be used to enable or disable all
+disables messages printed at a given
+[message level](https://github.com/markwomack/ArduinoLogging/blob/71a1ce7992577bd2fb9c20d3fbf3096a022bd0a1/src/CascadeDebugger.h#L15).
+The values of ALL and NONE can be used to enable or disable all
 message levels.
 
 - **LOG_DEBUG(msg, values...)**</br>
