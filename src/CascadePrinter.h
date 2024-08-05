@@ -95,36 +95,36 @@ class CascadePrinter
     // These methods exactly mirror the methods provided by the PrintWrapper
     // class, which in turn mirrors the methods provided by the Print
     // interface.
-    virtual CascadePrinter& print(const __FlashStringHelper *);
-    virtual CascadePrinter& print(const String &);
-    virtual CascadePrinter& print(const char[]);
-    virtual CascadePrinter& print(char);
-    virtual CascadePrinter& print(unsigned char, int = DEC);
-    virtual CascadePrinter& print(int, int = DEC);
-    virtual CascadePrinter& print(unsigned int, int = DEC);
-    virtual CascadePrinter& print(long, int = DEC);
-    virtual CascadePrinter& print(unsigned long, int = DEC);
-    virtual CascadePrinter& print(double, int = 2);
-    virtual CascadePrinter& print(const Printable&);
-    virtual CascadePrinter& println(const __FlashStringHelper *);
-    virtual CascadePrinter& println(const String &s);
-    virtual CascadePrinter& println(const char[]);
-    virtual CascadePrinter& println(char);
-    virtual CascadePrinter& println(unsigned char, int = DEC);
-    virtual CascadePrinter& println(int, int = DEC);
-    virtual CascadePrinter& println(unsigned int, int = DEC);
-    virtual CascadePrinter& println(long, int = DEC);
-    virtual CascadePrinter& println(unsigned long, int = DEC);
-    virtual CascadePrinter& println(double, int = 2);
-    virtual CascadePrinter& println(const Printable&);
-    virtual CascadePrinter& println(void);
-    virtual CascadePrinter& write(uint8_t);
-    virtual void flush();
+    CascadePrinter& print(const __FlashStringHelper *);
+    CascadePrinter& print(const String &);
+    CascadePrinter& print(const char[]);
+    CascadePrinter& print(char);
+    CascadePrinter& print(unsigned char, int = DEC);
+    CascadePrinter& print(int, int = DEC);
+    CascadePrinter& print(unsigned int, int = DEC);
+    CascadePrinter& print(long, int = DEC);
+    CascadePrinter& print(unsigned long, int = DEC);
+    CascadePrinter& print(double, int = 2);
+    CascadePrinter& print(const Printable&);
+    CascadePrinter& println(const __FlashStringHelper *);
+    CascadePrinter& println(const String &s);
+    CascadePrinter& println(const char[]);
+    CascadePrinter& println(char);
+    CascadePrinter& println(unsigned char, int = DEC);
+    CascadePrinter& println(int, int = DEC);
+    CascadePrinter& println(unsigned int, int = DEC);
+    CascadePrinter& println(long, int = DEC);
+    CascadePrinter& println(unsigned long, int = DEC);
+    CascadePrinter& println(double, int = 2);
+    CascadePrinter& println(const Printable&);
+    CascadePrinter& println(void);
+    CascadePrinter& write(uint8_t);
+    void flush();
     
     // These methods are in addition to the Print
     // interface methods.
-    virtual CascadePrinter& printf(const char* format, ...);
-    virtual CascadePrinter& printfln(const char* format, ...);
+    CascadePrinter& printf(const char* format, ...);
+    CascadePrinter& printfln(const char* format, ...);
 
   protected:
     OpenClosePrintWrapper* _openClosePrintWrapper;

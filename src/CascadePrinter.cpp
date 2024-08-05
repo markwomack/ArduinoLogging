@@ -433,9 +433,9 @@ void CascadePrinter::flush() {
 }
 
 CascadePrinter& CascadePrinter::printf(const char* format, ...) {
-  char buffer[256];
   va_list args;
   va_start (args, format);
+  char buffer[256];
   vsnprintf (buffer, 255, format, args);
   _openClosePrintWrapper->print(buffer);
   va_end (args);
@@ -443,9 +443,9 @@ CascadePrinter& CascadePrinter::printf(const char* format, ...) {
 }
 
 CascadePrinter& CascadePrinter::printfln(const char* format, ...) {
-  char buffer[256];
   va_list args;
   va_start (args, format);
+  char buffer[256];
   vsnprintf (buffer, 255, format, args);
   _openClosePrintWrapper->println(buffer);
   va_end (args);
