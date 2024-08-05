@@ -45,6 +45,7 @@ situations where one needs to print to different destinations.
 - All debug messages can be disabled and not printed by simply disabling
 all message level in the `DebugMsgs` object (which is its default state).
 
+## Normal Usage
 To use Arduino Logging, simply include the file `DebugMsgs.h`, and then use
 the `DebugMsgs` global object to print messages.
 
