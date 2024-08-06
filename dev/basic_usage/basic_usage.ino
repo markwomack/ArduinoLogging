@@ -3,6 +3,11 @@
 // See accompanying LICENSE file for details.
 //
 
+/**
+ * This example demonstrates almost all of the basiclogging methods on
+ * the DebugMsgs object.
+ */
+ 
 #include <Arduino.h>
 #include "src/DebugMsgs.h"
 #include "src/CascadePrinter.h"

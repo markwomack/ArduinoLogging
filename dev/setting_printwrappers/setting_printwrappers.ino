@@ -3,7 +3,13 @@
 // See accompanying LICENSE file for details.
 //
 
+/**
+ * This demonstrates how to set different PrintWrapper instances into DebugMsgs
+ * to change where logging messages are sent.
+ */
+
 #include <Arduino.h>
+
 #include "src/DebugMsgs.h"
 #include "src/NullPrintWrapper.h"
 #include "src/SerialPrintWrapper.h"
@@ -21,12 +27,9 @@ void setup() {
   DebugMsgs.debug().println("This line will not print");
 
   // Set a serial print wrapper that will print
-  PrintWrapper* oldPrintWrapper = DebugMsgs.setPrintWrapper(new SerialPrintWrapper());
+  DebugMsgs.setPrintWrapper(new SerialPrintWrapper());
 
   DebugMsgs.debug().println("...and now we are back!");
-
-  // free up space of unused wrapper
-  free(oldPrintWrapper);
 
 }
 

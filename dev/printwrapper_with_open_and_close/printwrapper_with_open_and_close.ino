@@ -3,6 +3,11 @@
 // See accompanying LICENSE file for details.
 //
 
+/**
+ * This example demonstrates when the open and close calls will be
+ * called by the DebugMsgs implmentation (which is based on CascadePrinter).
+ */
+
 #include <Arduino.h>
 #include "src/DebugMsgs.h"
 #include "src/PrintWrapper.h"
@@ -49,7 +54,7 @@ void setup() {
   // Enable debug level
   DebugMsgs.enableLevel(DEBUG);
   
-  DebugMsgs.debug().print("Because we used serial ").println("inside the new print wrapper,");
+  DebugMsgs.debug().print("Because we used serial ").println("inside the new print wrapper by default,");
   DebugMsgs.debug().print("you aren't going to see ").println("different output.");
 
   printOpenAndCloseCalls = true;
@@ -59,6 +64,8 @@ void setup() {
   // Not a problem per se, but just calls open/close more often.
   DebugMsgs.debug().print("interspersed").println(" around the").println(" messages");
   DebugMsgs.print("Open and close ").print("are called ").println("even when debug() is not");
+  DebugMsgs.debug().print("Basically open is called at the beginning of the first print() or println() call,")
+    .println(" and close() is called at the end of every println() call.");
 }
 
 void loop() {

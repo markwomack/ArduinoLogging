@@ -3,6 +3,12 @@
 // See accompanying LICENSE file for details.
 //
 
+/**
+ * This example demonstrates how to use the LOG macros and how they allow
+ * the removal of the logging code from compiled code with a simple flag
+ * definition.
+ */
+ 
 // Uncomment this line to remove all log macro calls
 //#define INCLUDE_LOGGING false
 

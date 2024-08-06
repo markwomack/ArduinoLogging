@@ -3,6 +3,11 @@
 // See accompanying LICENSE file for details.
 //
 
+/**
+ * This demonstrates how to set different PrintWrapper instances into DebugMsgs
+ * to change where logging messages are sent.
+ */
+ 
 #include <DebugMsgs.h>
 #include <NullPrintWrapper.h>
 #include <SerialPrintWrapper.h>
