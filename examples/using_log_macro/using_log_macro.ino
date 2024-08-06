@@ -8,6 +8,7 @@
 
 #include <Arduino.h>
 #include <DebugMsgs.h>
+#include <SerialPrintWrapper.h>
 
 void setup() {
   // Serial needs to be initialized prior to messages being printed

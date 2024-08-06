@@ -6,7 +6,7 @@
 #include <Arduino.h>
 #include "src/DebugMsgs.h"
 #include "src/CascadePrinter.h"
-#include "src/PrintWrapper.h"
+#include "src/SerialPrintWrapper.h"
 
 void setup() {
   // Serial needs to be initialized prior to messages being printed

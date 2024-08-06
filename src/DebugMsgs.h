@@ -14,9 +14,12 @@
 
 #include "CascadeDebugger.h"
 
-// Use this global variable to print all debugging messages
+// Use this global variable to print all logging messages
 extern CascadeDebugger DebugMsgs;
 
+// Defines for logging macros that can be removed from code
+// at compile time by defining INCLUDE_LOGGING to be 'false'
+// before including DebugMsgs.h in your code.
 #define LOG_ENABLE(...) DebugMsgs.enableLevel(__VA_ARGS__);
 #define LOG_DISABLE(...) DebugMsgs.disableLevel(__VA_ARGS__);
 #define LOG_DEBUG(...) DebugMsgs.debug().printfln(__VA_ARGS__);

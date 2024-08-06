@@ -5,6 +5,7 @@
 
 #include <Arduino.h>
 #include "CascadeDebugger.h"
+#include "SerialPrintWrapper.h"
 
 CascadeDebugger::CascadeDebugger() : CascadePrinter(new SerialPrintWrapper()) {
   _msgLevel = NONE;
@@ -155,6 +156,4 @@ CascadePrinter& CascadeDebugger::status(boolean test) {
   printLevelStart("STATUS");
   return *this;
 }
-
-CascadeDebugger DebugMsgs;
 

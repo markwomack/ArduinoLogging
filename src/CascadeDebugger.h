@@ -7,7 +7,7 @@
 #define CASCADEDEBUGGER_H
 
 #include "CascadePrinter.h"
-#include "PrintWrapper.h"
+#include "NullPrintWrapper.h"
 
 /**
  * The levels used to determine which messages are printed.
@@ -20,6 +20,13 @@ enum MsgLevel {
   NOTIFICATION = 8,
   STATUS       = 16,
   ALL          = 31
+};
+
+
+// NullPrinter is a class that prints nothing.
+class NullPrinter : public CascadePrinter {
+  public:
+    NullPrinter() : CascadePrinter(new NullPrintWrapper()) { }
 };
 
 /**

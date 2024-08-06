@@ -21,9 +21,10 @@
  *
  * The default implementations of open, close, and requiresOpenAndClose methods
  * effectively do nothing since most Print instances do not require any extra
- * code to print to them. But some Print instances, such as UDP, require some
- * sort of open to start printing, and close to end printing. In these cases
- * the methods can be overridden by a subclass to provide for that case.
+ * open/close code to print to them. But some Print instances, such as UDP,
+ * require some sort of open to start printing, and close to end printing. In
+ * these cases the methods can be overridden by a subclass to provide for that
+ * case.
  *
  **/
 class PrintWrapper : public Print
@@ -86,92 +87,8 @@ class PrintWrapper : public Print
   
   protected:
     // This is the underlying Print instance that is called
+    // to actually print the output.
     Print* _print;
-};
-
-/**
- * SerialPrintWrapper is a class that prints everything to 
- * the Serial port.
- *
- **/
-class SerialPrintWrapper : public PrintWrapper {
-  public:
-    SerialPrintWrapper() : PrintWrapper(&Serial) { }
-};
-
-/**
- * NullPrintWrapper is a class that prints nothing.
- *
- **/
-class NullPrintWrapper : public PrintWrapper {
-  public:
-    NullPrintWrapper() : PrintWrapper(0) { }
-    size_t print(const __FlashStringHelper *);
-    size_t print(const String &);
-    size_t print(const char[]);
-    size_t print(char);
-    size_t print(unsigned char, int = DEC);
-    size_t print(int, int = DEC);
-    size_t print(unsigned int, int = DEC);
-    size_t print(long, int = DEC);
-    size_t print(unsigned long, int = DEC);
-    size_t print(double, int = 2);
-    size_t print(const Printable&);
-    size_t println(const __FlashStringHelper *);
-    size_t println(const String &s);
-    size_t println(const char[]);
-    size_t println(char);
-    size_t println(unsigned char, int = DEC);
-    size_t println(int, int = DEC);
-    size_t println(unsigned int, int = DEC);
-    size_t println(long, int = DEC);
-    size_t println(unsigned long, int = DEC);
-    size_t println(double, int = 2);
-    size_t println(const Printable&);
-    size_t println(void);
-    
-    size_t write(uint8_t);
-    void flush();
-};
-
-class FlushingPrintWrapper : public PrintWrapper {
-  public:
-    FlushingPrintWrapper(PrintWrapper* printWrapper);
-    
-    int open(void);
-    int close(void);
-    bool requiresOpenAndClose();
-    size_t print(const __FlashStringHelper *);
-    size_t print(const String &);
-    size_t print(const char[]);
-    size_t print(char);
-    size_t print(unsigned char, int = DEC);
-    size_t print(int, int = DEC);
-    size_t print(unsigned int, int = DEC);
-    size_t print(long, int = DEC);
-    size_t print(unsigned long, int = DEC);
-    size_t print(double, int = 2);
-    size_t print(const Printable&);
-    size_t println(const __FlashStringHelper *);
-    size_t println(const String &s);
-    size_t println(const char[]);
-    size_t println(char);
-    size_t println(unsigned char, int = DEC);
-    size_t println(int, int = DEC);
-    size_t println(unsigned int, int = DEC);
-    size_t println(long, int = DEC);
-    size_t println(unsigned long, int = DEC);
-    size_t println(double, int = 2);
-    size_t println(const Printable&);
-    size_t println(void);
-    
-    size_t write(uint8_t);
-    void flush();
-    
-  protected:
-    // This print wrapper is wrapped by the FlushingPrintWrapper,
-    // and will be called for actual functionality.
-    PrintWrapper* _printWrapper;
 };
 
 #endif

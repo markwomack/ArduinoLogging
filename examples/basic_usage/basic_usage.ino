@@ -6,6 +6,7 @@
 #include <Arduino.h>
 #include <DebugMsgs.h>
 #include <CascadePrinter.h>
+#include <SerialPrintWrapper.h>
 
 void setup() {
   // Serial needs to be initialized prior to messages being printed
@@ -127,6 +128,14 @@ void setup() {
   DebugMsgs.print("this should still ").println("print, but without the pre header");
   DebugMsgs.printfln("Will still print, A message with some value: %s, %d, %08X, %.2lf", "A string", 1234, 56999999, 1.23567);
   DebugMsgs.printf("Will still print, A variable %d; ", 1234).printf("Another variable %s; ", "StRiNg").printfln("And another variable %02d;", 5);
+  Serial.println();
+
+  Serial.println("Round 14 - using CascadePrinter");
+  CascadePrinter cascadePrinter;
+  cascadePrinter.println("This won't print");
+  PrintWrapper* oldPrintWrapper = cascadePrinter.setPrintWrapper(new SerialPrintWrapper());
+  cascadePrinter.println("This will print");
+  free(oldPrintWrapper); // free up this unused object
   Serial.println();
 }
 

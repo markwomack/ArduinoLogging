@@ -4,7 +4,8 @@
 //
 
 #include <DebugMsgs.h>
-#include <PrintWrapper.h>
+#include <NullPrintWrapper.h>
+#include <SerialPrintWrapper.h>
 
 void setup() {
   Serial.begin(9600);

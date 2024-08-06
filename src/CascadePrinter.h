@@ -10,12 +10,12 @@
 
 /**
  * A special PrintWrapper class that will automatically call the open and
- * close methods of a print wrapper if required. If the PrintWrapper
- * requires open and close when printing, CascadePrinter will automatically
- * make the correct calls to those methods when printing. It will call
- * open() on the first print() or println() call, and it will call
- * close() on the first println() call. In this way it prints the content
- * in chunks, typically an entire line.
+ * close methods of an underlying PrintWrapper instance if required
+ * (requiresOpenClose() returns true). It will call open() on the first
+ * print() or println() call, and it will call close() on the first
+ * println() call. In this way it prints the content in chunks, line by
+ * line. CascadePrinter uses this class to handle the open/close
+ * requirements of a PrintWrapper assigned to it.
  **/
 class OpenClosePrintWrapper : public PrintWrapper {
   public:
@@ -72,7 +72,7 @@ class OpenClosePrintWrapper : public PrintWrapper {
  *
  * It uses instances of the PrintWrapper class to print the content. It
  * uses the OpenClosePrintWrapper to automatically call open and close
- * on the print wrapper if required.
+ * on the print wrapper.
  **/
 class CascadePrinter
 {
@@ -128,12 +128,6 @@ class CascadePrinter
 
   protected:
     OpenClosePrintWrapper* _openClosePrintWrapper;
-};
-
-// NullPrinter is a class that prints nothing.
-class NullPrinter : public CascadePrinter {
-  public:
-    NullPrinter() : CascadePrinter(new NullPrintWrapper()) { }
 };
 
 #endif

@@ -5,7 +5,8 @@
 
 #include <Arduino.h>
 #include "src/DebugMsgs.h"
-#include "src/PrintWrapper.h"
+#include "src/NullPrintWrapper.h"
+#include "src/SerialPrintWrapper.h"
 
 void setup() {
   Serial.begin(9600);
